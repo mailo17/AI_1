@@ -32,7 +32,7 @@ public  class GAME {
 
     }
     public char[] getBoard(){
-        return this.board.clone();
+        return this.board;
     }
     public int BoardLength(){
         return board.length;

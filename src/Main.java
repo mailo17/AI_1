@@ -22,6 +22,6 @@ public class Main {
         System.out.println("Starting Solving ");
         UCS ucsSolve= new UCS();
         ucsSolve.search();
-        ucsSolve.PrintBoard();
+
     }
 }
