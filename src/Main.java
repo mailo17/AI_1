@@ -20,8 +20,11 @@ public class Main {
             System.out.print(UcsAlg.getBoard()[i] + " ");
         }
         System.out.println("Starting Solving ");
-        UCS ucsSolve= new UCS();
-        ucsSolve.search();
+        //UCS ucsSolve= new UCS();
+       // ucsSolve.search();
+
+        Astar AstarSolve= new Astar();
+        AstarSolve.Asearch();
 
     }
 }

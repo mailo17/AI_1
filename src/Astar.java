@@ -1,19 +1,16 @@
 import java.util.*;
 
-
-
-public class UCS extends GAME {
-    int NodeNums;
-
-    public Node search() {
-        // Priority Queue to hold nodes based on their cost (low cost has high priority)
+public class Astar extends GAME{
+    public int Nodenums;
+    public Node Asearch(){
         PriorityQueue<Node> frontier = new PriorityQueue<>(Comparator.comparingInt(a -> a.cost));
-        HashSet<String> explored = new HashSet<>();
-        NodeNums =0;
-
-        // Initial node with cost 0, depth 0, and no parent
-        Node startNode = new Node(0, null, this, 0);
-        frontier.add(startNode);
+        //HashSet<String> explored = new HashSet<>();
+        Nodenums=0;
+        //arxiko Node
+        Node tempNode =new Node(0,null,this,0);// temporary node gia na ypologisoyme to heuristic cost
+        Node start = new Node(heuristic(tempNode),null,this,0);
+        int tempHeuristic=heuristic(tempNode);
+        frontier.add(start);
 
         while (!frontier.isEmpty()) {
             // Get the node with the lowest cost
@@ -21,12 +18,13 @@ public class UCS extends GAME {
             GAME currentState = currentNode.state;
 
             //System.out.println("Depth: " + currentNode.depth);
-           // currentState.PrintBoard();
+            // currentState.PrintBoard();
 
             // Check if the current state is the goal
             if (currentState.isGoal()) {
-                System.out.println("Number of total Nodes "+NodeNums);
-    //                System.out.println("Goal reached!");
+                System.out.println("the Starting heuristic cost is "+tempHeuristic);
+                System.out.println("Number of total Nodes "+Nodenums);
+                //                System.out.println("Goal reached!");
                 System.out.println("Cost "+currentNode.cost);
                 printSolutionPath(currentNode);
                 System.out.println("Solved ");
@@ -34,22 +32,21 @@ public class UCS extends GAME {
             }
 
             // Mark the current board configuration as explored
-            explored.add(Arrays.toString(currentState.getBoard()));
+           //explored.add(Arrays.toString(currentState.getBoard()));
 
             // Expand nodes by generating valid moves
-            for (Node child : generateChildren(currentNode)) {
+            for (Node child : generateChildrenAstar(currentNode)) {
 
                 String childBoardStr = Arrays.toString(child.state.getBoard());
-               if (!explored.contains(childBoardStr)) {
-                    NodeNums++;
+               // if (!explored.contains(childBoardStr)) {
+                    Nodenums++;
                     frontier.add(child);
-               }
+               // }
             }
         }
         return null; // Return null if no solution is found
     }
-
-    private List<Node> generateChildren(Node parent) {
+    private List<Node> generateChildrenAstar(Node parent) {
         List<Node> children = new ArrayList<>();
         GAME parentState = parent.state;
         char[] parentBoard = parentState.getBoard();
@@ -59,9 +56,6 @@ public class UCS extends GAME {
         int[] moves = COST(emptyIndex);
         for (int i=0;i<moves.length;i++){
             System.out.print(moves[i]+" ");
-            //System.out.println()
-
-           // System.out.println("Cost: " + Math.abs(moves[i]));
 
         }
         System.out.println();
@@ -82,15 +76,26 @@ public class UCS extends GAME {
 
             // Calculate the cost for the move
             int moveCost = Math.abs(move);
-
+            int heuristic = heuristic(parent);
             // Create the child node
 
-            Node child = new Node(parent.cost + moveCost, parent, childState, parent.depth + 1);
-
+            Node child = new Node(parent.cost + moveCost + heuristic, parent, childState, parent.depth + 1);
+            //System.out.println("the Heuristic cost is "+heuristic);
             children.add(child);
         }
 
         return children;
+    }
+    private int heuristic(Node currentNode){
+        int heuristicCost =0;
+        char[] BoardReference = currentNode.getBoard();
+        for(int i=0;i<this.BoardLength();i++){
+            if(BoardReference[i]=='W'){
+                heuristicCost+=i+1;
+            }
+        }
+       // System.out.println("the Heuristic cost is "+heuristicCost);
+        return heuristicCost;
     }
 
 }
