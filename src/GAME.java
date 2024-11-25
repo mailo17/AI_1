@@ -1,4 +1,7 @@
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 public  class GAME {
     public char[] board;
@@ -13,10 +16,10 @@ public  class GAME {
                 if(i<3){
                     this.board[i]='B'; //BLACK
                 }
-                if(i>=3 && i<6){
+                if(i>3 && i<=6){
                     this.board[i]='W'; //WHITE
                 }
-                if(i==6){
+                if(i==3){
                     this.board[i]='S'; //keno
                 }
                 map.put('B',-10);
@@ -66,5 +69,47 @@ public  class GAME {
             System.out.print(board[i]+" ");
         }
         System.out.println();
+    }
+    public void printSolutionPath(Node goalNode) {
+        List<Node> path = new ArrayList<>();
+        Node current = goalNode;
+
+        // Trace back from goal to start
+        while (current != null) {
+            path.add(current);
+            current = current.parent;
+
+        }
+
+        // Print the path in reverse (start to goal)
+        Collections.reverse(path);
+        System.out.println("Solution Path:");
+        for (Node node : path) {
+
+            node.state.PrintBoard();
+        }
+    }
+    public int[] COST(int position){ //prepei na epsitrefei ton pinaka ton pithanon kinhsewn gia th nantistoixh thesh
+        // meta to costos einai h metakinhsh se apolyth timh giati  borei na metainhthei -3 -2 -1 1 1 2 3 thewrtika
+        List<Integer> validMoves = new ArrayList<>();
+        char[] boardClone = this.getBoardClone();
+        for (int k = 3; k >= 1; k--) {
+            if (position - k >= 0) {  // Ensure the move stays within bounds to the left
+                validMoves.add(-k);  // Add the left-side move
+            }
+        }
+
+        // Generate valid moves to the right +1, +2, +3
+        for (int k = 1; k <= 3; k++) {
+            if (position + k < boardClone.length) { // Ensure the move stays within bounds
+                validMoves.add(k);
+            }
+        }
+        int[] costs = new int[validMoves.size()];
+        for ( int i = 0; i < validMoves.size(); i++) {
+            costs[i] = validMoves.get(i);
+        }
+
+        return costs;
     }
 }
