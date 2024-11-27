@@ -16,10 +16,10 @@ public  class GAME {
                 if(i<3){
                     this.board[i]='B'; //BLACK
                 }
-                if(i>3 && i<=6){
+                if(i>=3 && i<6){
                     this.board[i]='W'; //WHITE
                 }
-                if(i==3){
+                if(i==6){
                     this.board[i]='S'; //keno
                 }
                 map.put('B',-10);
@@ -87,6 +87,8 @@ public  class GAME {
         for (Node node : path) {
 
             node.state.PrintBoard();
+            System.out.println("Cost:"+node.cost+"  |Depth:"+node.depth);
+
         }
     }
     public int[] COST(int position){ //prepei na epsitrefei ton pinaka ton pithanon kinhsewn gia th nantistoixh thesh

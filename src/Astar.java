@@ -88,15 +88,63 @@ public class Astar extends GAME{
         return children;
     }
     private int heuristic(Node currentNode){
-        int heuristicCost =0;
-        char[] BoardReference = currentNode.getBoard();
+       // int heuristicCost =0;
+       // char[] BoardReference = currentNode.getBoard();
+        /*if(currentNode.state.isGoal()){
+            //System.out.println("herustic is 0");
+            return 0;
+        }
+
         for(int i=0;i<this.BoardLength();i++){
             if(BoardReference[i]=='W'){
                 heuristicCost+=i+1;
             }
         }
-       // System.out.println("the Heuristic cost is "+heuristicCost);
-        return heuristicCost;
+        //System.out.println("the Heuristic cost is "+heuristicCost);
+        return heuristicCost;*/ /// prwth ekdosh einai lathos
+        char[] state = currentNode.state.getBoard();
+        int leftmostBIndex= -1;
+        for(int i=0;i <state.length;i++){ // finding the left most Black and savign the Index
+            if(state[i]=='B'){
+                leftmostBIndex = i;
+                break;
+            }
+        }
+        if (leftmostBIndex== -1){
+            return 0;
+        }
+        int cost =0;
+        for (int i=0;i<state.length;i++){
+            if(state[i]=='W'){
+                if(i > leftmostBIndex){
+                    cost += (i-leftmostBIndex);
+                }
+            }
+        }
+       // System.out.println("the Herustic is "+cost);
+        return cost;
+    }
+    @Override //ovveride so we can call the solution path with the heuristic
+    public void printSolutionPath(Node goalNode) {
+        List<Node> path = new ArrayList<>();
+        Node current = goalNode;
+
+        // Trace back from goal to start
+        while (current != null) {
+            path.add(current);
+            current = current.parent;
+
+        }
+
+        // Print the path in reverse (start to goal)
+        Collections.reverse(path);
+        System.out.println("Solution Path:");
+        for (Node node : path) {
+
+            node.state.PrintBoard();
+            System.out.println("Cost:"+node.cost+"  |Depth:"+node.depth+"  |heuristic: "+heuristic(node));
+
+        }
     }
 
 }
