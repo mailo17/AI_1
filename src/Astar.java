@@ -40,7 +40,7 @@ public class Astar extends GAME{
 
                // String childBoardStr = Arrays.toString(child.state.getBoard());
                // if (!explored.contains(childBoardStr)) {
-                    Nodenums++;
+                    //Nodenums++;
                     frontier.add(child);
                // }
             }
@@ -81,7 +81,8 @@ public class Astar extends GAME{
             // Create the child node
 
             Node child = new Node(parent.cost + moveCost , parent, childState, parent.depth + 1);
-            //System.out.println("the Heuristic cost is "+heuristic);
+            Nodenums++;
+
             children.add(child);
         }
 

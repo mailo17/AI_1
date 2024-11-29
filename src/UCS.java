@@ -41,7 +41,7 @@ public class UCS extends GAME {
 
                 String childBoardStr = Arrays.toString(child.state.getBoard());
                if (!explored.contains(childBoardStr)) {
-                    NodeNums++;
+                    //Nodenums++;
                     frontier.add(child);
                }
             }
@@ -86,7 +86,7 @@ public class UCS extends GAME {
             // Create the child node
 
             Node child = new Node(parent.cost + moveCost, parent, childState, parent.depth + 1);
-
+            NodeNums++;
             children.add(child);
         }
 

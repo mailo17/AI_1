@@ -1,8 +1,8 @@
 public class Main {
     public static void main(String[] args) {
 
-        //UCS ucsSolve= new UCS();
-        //ucsSolve.search();
+       // UCS ucsSolve= new UCS();
+       // ucsSolve.search();
 
         Astar AstarSolve= new Astar();
         AstarSolve.Asearch();
